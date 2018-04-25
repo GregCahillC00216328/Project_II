@@ -47,16 +47,17 @@ Font font;						// Game font
 float x_offset, y_offset, z_offset; // offset on screen (Vertex Shader)
 
 Game::Game() : 
-	window(VideoMode(800, 600), 
-	"Introduction to OpenGL Texturing")
+	window(VideoMode(1920, 1080), 
+	"Introduction to OpenGL Texturing",
+		sf::Style::Fullscreen)
 {
 	
 }
 
 Game::Game(sf::ContextSettings settings) : 
-	window(VideoMode(800, 600), 
+	window(VideoMode(1920, 1080), 
 	"Introduction to OpenGL Texturing", 
-	sf::Style::Default, 
+	sf::Style::Fullscreen,
 	settings)
 {
 }
@@ -319,8 +320,32 @@ void Game::update()
 	mvp = projection[0] * view[0] * model[0];
 	mvp2 = projection[1] * view[1] * model[1];
 	//glm::vec3 tempVec(model1[0].x, model1[0].y, model1[0].z);
-	model[0] = rotate(model[0], -0.001f, glm::vec3(0, 1, 0)); // Rotate
-	model[1] = rotate(model[1], -0.001f, glm::vec3(0, 1, 0)); // Rotate
+	//model[0] = rotate(model[0], -0.001f, glm::vec3(0, 1, 0)); // Rotate
+	//model[1] = rotate(model[1], -0.001f, glm::vec3(0, 1, 0)); // Rotate
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+	{
+		view[0] = rotate(view[0], -0.001f, glm::vec3(0, 1, 0));
+		view[1] = rotate(view[1], -0.001f, glm::vec3(0, 1, 0));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+	{
+		view[0] = rotate(view[0], 0.001f, glm::vec3(0, 1, 0));
+		view[1] = rotate(view[1], 0.001f, glm::vec3(0, 1, 0));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		view[0] = rotate(view[0], -0.001f, glm::vec3(1, 0, 0));
+		view[1] = rotate(view[1], -0.001f, glm::vec3(1, 0, 0));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		view[0] = rotate(view[0], 0.001f, glm::vec3(1, 0, 0));
+		view[1] = rotate(view[1], 0.001f, glm::vec3(1, 0, 0));
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	{
+		isRunning = false;
+	}
 
 	
 	//std::cout << std::to_string(tempPos.x) << std::endl << std::to_string(tempPos.y) << std::endl << std::to_string(tempPos.z) << std::endl;
@@ -468,13 +493,13 @@ void Game::render()
 	glDrawElements(GL_TRIANGLES, 3 * INDICES, GL_UNSIGNED_INT, NULL);
 	if (!switcher)
 	{
-		glViewport(0, 0, 400, 600);
+		glViewport(0, 0, 960, 590);
 		
 		switcher = true;
 	}
 	else
 	{
-		glViewport(400, 0, 400, 600);
+		glViewport(960, 0, 960, 590);
 		switcher = false;
 		
 	}
